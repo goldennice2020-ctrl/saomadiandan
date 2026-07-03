@@ -258,6 +258,7 @@ import {
   menuAds,
   shopGetList
 } from '@/api/market'
+import { VUE_APP_API_URL } from '@/config'
 const main = useMainStore()
 const { orderType,address, store,isLogin } = storeToRefs(main)
 const title = ref('点餐')
@@ -347,7 +348,12 @@ const showFallbackMenu = (message = '') => {
 	nextTick(() => measureMenuLayout())
 }
 
-const trimUrl = (url) => typeof url === 'string' ? url.trim() : url
+const apiResourceOrigin = VUE_APP_API_URL.replace(/\/app-api\/?$/, '')
+const trimUrl = (url) => {
+	if (typeof url !== 'string') return url
+	const cleanUrl = url.trim()
+	return cleanUrl.replace(/^https?:\/\/(?:localhost|127\.0\.0\.1):48081/i, apiResourceOrigin)
+}
 const normalizeGoodsImages = (list = []) => {
 	return list.map((cate) => ({
 		...cate,
