@@ -476,15 +476,15 @@ function beforeUpload(file) {
     file.type === 'image/png' ||
     file.type === 'image/gif' ||
     file.type === 'image/jpg'
-  const isLt2M = file.size / 1024 / 1024 < 2
+  const isLt10M = file.size / 1024 / 1024 < 10
   if (!isPic) {
     ElMessage.error('上传图片只能是 JPG、JPEG、PNG、GIF 格式!')
     return false
   }
-  if (!isLt2M) {
-    ElMessage.error('上传图片大小不能超过 2MB!')
+  if (!isLt10M) {
+    ElMessage.error('上传图片大小不能超过 10MB!')
   }
-  return isPic && isLt2M
+  return isPic && isLt10M
 }
 
 const emit = defineEmits(['update:modelValue'])
