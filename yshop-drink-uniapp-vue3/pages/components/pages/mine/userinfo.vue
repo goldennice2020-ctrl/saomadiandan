@@ -100,6 +100,7 @@ import {
   userEdit
 } from '@/api/user'
 import { VUE_APP_UPLOAD_URL } from '@/config';
+import { compressImageTo500KB } from '@/utils/compressImage';
 const main = useMainStore()
 const { openid, lang } = storeToRefs(main)
 
@@ -124,11 +125,12 @@ const endDate = computed(() => {
 	return getDate('end');
 })
 
-const chooseavatar = (e) => {
+const chooseavatar = async (e) => {
 	console.log('detal:',e.detail);
+	const avatarUrl = await compressImageTo500KB(e.detail.avatarUrl);
 	uni.uploadFile({
 		url: VUE_APP_UPLOAD_URL, 
-		filePath: e.detail.avatarUrl,
+		filePath: avatarUrl,
 		name: 'file',
 		header: {
 			Authorization: 'Bearer ' + member.value.accessToken,

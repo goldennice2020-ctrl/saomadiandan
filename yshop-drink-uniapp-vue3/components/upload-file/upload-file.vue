@@ -11,6 +11,7 @@
 
 <script setup>
 import { VUE_APP_UPLOAD_URL } from '@/config';
+import { compressImageTo500KB } from '@/utils/compressImage';
 import { ref } from 'vue';
 
 const props = defineProps(['modelValue'])
@@ -52,20 +53,27 @@ const afterRead = async (event) => {
 
 const uploadFilePromise = (url) => {
   return new Promise((resolve, reject) => {
-    let a = uni.uploadFile({
-      url: VUE_APP_UPLOAD_URL, // 仅为示例，非真实的接口地址
-      filePath: url,
-      name: 'file',
-      formData: {
-        user: 'test'
-      },
-      success: (res) => {
-        console.log("gxs --> % returnnewPromise % res:\n", res)
-        setTimeout(() => {
-          resolve(res.data.data)
-        }, 10)
-      }
-    });
+    compressImageTo500KB(url).then((filePath) => {
+      uni.uploadFile({
+        url: VUE_APP_UPLOAD_URL, // 仅为示例，非真实的接口地址
+        filePath,
+        name: 'file',
+        formData: {
+          user: 'test'
+        },
+        success: (res) => {
+          console.log("gxs --> % returnnewPromise % res:\n", res)
+          setTimeout(() => {
+            try {
+              const upload = typeof res.data === 'string' ? JSON.parse(res.data) : res.data
+              resolve(upload.data)
+            } catch (error) {
+              reject(error)
+            }
+          }, 10)
+        }
+      });
+    }).catch(reject)
   })
 }
 
