@@ -33,7 +33,7 @@ export const useUpload = () => {
       return new Promise((resolve, reject) => {
         FileApi.updateFile({ file: options.file })
           .then((res) => {
-            if (res.code === 0) {
+            if (res.code === 0 || res.code === 200) {
               resolve(res)
             } else {
               reject(res)

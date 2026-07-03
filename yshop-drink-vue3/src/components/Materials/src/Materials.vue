@@ -104,6 +104,8 @@
                       :on-progress="handleProgress"
                       :before-upload="beforeUpload"
                       :on-success="handleSuccess"
+                      :on-error="handleUploadError"
+                      :http-request="httpRequest"
                       :data="{ type: 1 }"
                       multiple
                     >
@@ -173,7 +175,7 @@
 </template>
 
 <script setup name="Materials">
-import { ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import {
   getList as materialgroupPage,
@@ -183,6 +185,7 @@ import {
 } from '@/api/tools/materialgroup'
 import { getPage, addObj, delObj } from '@/api/tools/material'
 import { getAccessToken } from '@/utils/auth'
+import { useUpload } from '@/components/UploadFile/src/useUpload'
 
 const props = defineProps({
   modelValue: {
@@ -261,6 +264,7 @@ const value = computed({
 // const store = useStore()
 
 const uploadApi = import.meta.env.VITE_UPLOAD_URL
+const { httpRequest } = useUpload()
 
 function moveMaterial(index, type) {
   if (type == 'up') {
@@ -444,6 +448,10 @@ function handleProgress(event) {
   console.log(event)
 }
 function handleSuccess(response, file, fileList) {
+  if (!response?.data) {
+    ElMessage.error('上传失败：接口未返回图片地址')
+    return
+  }
   addObj({
     type: '1',
     groupId: groupId.value != '-1' ? groupId.value : null,
@@ -459,6 +467,9 @@ function handleSuccess(response, file, fileList) {
     }
   })
 }
+function handleUploadError(error) {
+  ElMessage.error(error?.message || '上传失败')
+}
 function beforeUpload(file) {
   const isPic =
     file.type === 'image/jpeg' ||
@@ -467,11 +478,11 @@ function beforeUpload(file) {
     file.type === 'image/jpg'
   const isLt2M = file.size / 1024 / 1024 < 2
   if (!isPic) {
-    this.$message.error('上传图片只能是 JPG、JPEG、PNG、GIF 格式!')
+    ElMessage.error('上传图片只能是 JPG、JPEG、PNG、GIF 格式!')
     return false
   }
   if (!isLt2M) {
-    this.$message.error('上传头像图片大小不能超过 2MB!')
+    ElMessage.error('上传图片大小不能超过 2MB!')
   }
   return isPic && isLt2M
 }
