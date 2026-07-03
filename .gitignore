@@ -1,0 +1,13 @@
+/.git
+/.idea
+*.log
+*.DS_Store
+/.pnpm-store
+/yshop-drink-boot3/target/
+/yshop-drink-boot3/**/target/
+/yshop-drink-boot3/.m2/
+/yshop-drink-boot3/.codex-maven-settings.xml
+/yshop-drink-vue3/node_modules
+/yshop-drink-vue3/dist
+/yshop-drink-uniapp-vue3/node_modules
+/yshop-drink-uniapp-vue3/unpackage/dist

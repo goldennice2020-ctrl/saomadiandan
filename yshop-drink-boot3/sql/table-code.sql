@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `yshop_store_table_code` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `set_code` varchar(64) NOT NULL COMMENT '套装编号',
+  `set_name` varchar(100) NOT NULL COMMENT '套装名称',
+  `table_no` int NOT NULL COMMENT '桌号',
+  `code` varchar(100) NOT NULL COMMENT '桌码编号',
+  `merchant_user_id` bigint DEFAULT NULL COMMENT '绑定商家账号ID',
+  `shop_id` bigint DEFAULT 0 COMMENT '绑定时商家账号所属门店ID',
+  `bind_time` datetime DEFAULT NULL COMMENT '绑定时间',
+  `qrcode_image` longtext COMMENT '微信小程序码base64图片',
+  `creator` varchar(64) DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT NULL COMMENT '更新者',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_table_code_code` (`code`),
+  KEY `idx_table_code_set_code` (`set_code`),
+  KEY `idx_table_code_merchant_user_id` (`merchant_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='门店桌码';
