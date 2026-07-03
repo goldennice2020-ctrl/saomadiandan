@@ -17,7 +17,6 @@
 		<view class="main">
 			<view class="nav">
 				<view class="header">
-					<view class="mr-1"><image :src="store.image" class="store-header-img"></image></view>
 					<view class="left" v-if="orderType == 'takein'">
 						<view class="store-name">
 							<text>{{ store.name }}</text>
@@ -1234,18 +1233,18 @@ page {
 										display: flex;
 										align-items: center;
 										justify-content: flex-end;
-										min-width: 154rpx;
+										min-width: 108rpx;
 
 										.btn {
 											box-sizing: border-box;
-											height: 66rpx;
-											padding: 0 30rpx;
-											font-size: 30rpx;
+											height: 46rpx;
+											padding: 0 21rpx;
+											font-size: 21rpx;
 											font-weight: 700;
-											line-height: 66rpx;
+											line-height: 46rpx;
 
 											&.property_btn {
-												border-radius: 36rpx;
+												border-radius: 25rpx;
 											}
 
 											&.add_btn,
@@ -1253,11 +1252,11 @@ page {
 												display: flex;
 												align-items: center;
 												justify-content: center;
-												width: 64rpx;
-												height: 64rpx;
+												width: 45rpx;
+												height: 45rpx;
 												padding: 0;
-												border-radius: 64rpx;
-												line-height: 64rpx;
+												border-radius: 45rpx;
+												line-height: 45rpx;
 											}
 
 											&.add_btn {
@@ -1275,17 +1274,17 @@ page {
 												display: block;
 												width: 100%;
 												height: 100%;
-												font-size: 52rpx;
+												font-size: 36rpx;
 												font-weight: 500;
-												line-height: 58rpx;
+												line-height: 40rpx;
 												text-align: center;
 											}
 										}
 
 										.quantity {
-											width: 70rpx;
-											font-size: 40rpx;
-											line-height: 64rpx;
+											width: 49rpx;
+											font-size: 28rpx;
+											line-height: 45rpx;
 											text-align: center;
 											color: $text-color-base;
 										}
@@ -1509,13 +1508,13 @@ page {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 214rpx;
-		height: 78rpx;
+		width: 150rpx;
+		height: 55rpx;
 		padding: 0;
-		font-size: 32rpx;
+		font-size: 22rpx;
 		font-weight: 600;
 		color: $text-color-white;
-		border-radius: 44rpx;
+		border-radius: 31rpx;
 	}
 
 	.mark {
@@ -1625,11 +1624,6 @@ page {
 .notice-bar {
 	height: 60rpx;
 	background-color: $text-color-white;
-}
-
-.store-header-img {
-	width: $img-size-lg;
-	height: $img-size-lg;
 }
 
 .bottom-spacer {
