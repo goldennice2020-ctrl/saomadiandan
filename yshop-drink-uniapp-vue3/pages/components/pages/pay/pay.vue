@@ -534,7 +534,7 @@ const balancePay = async(order) => {
 	member.value.money -= amount.value
 	main.SET_MEMBER(member.value)
 	uni.removeStorageSync('cart');
-	uni.switchTab({
+	uni.redirectTo({
 		url: '/pages/order/order',
 		fail(res) {
 			console.log(res);
@@ -582,7 +582,7 @@ const weixinPay = async(order) => {
 			success: function(res) {
 
 				uni.removeStorageSync('cart');
-				uni.switchTab({
+				uni.redirectTo({
 					url: '/pages/order/order'
 				});
 			},

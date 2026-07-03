@@ -145,7 +145,7 @@ const goBackAfterLogin = () => {
 		uni.navigateBack()
 		return
 	}
-	uni.switchTab({
+	uni.reLaunch({
 		url: '/pages/menu/menu'
 	})
 }

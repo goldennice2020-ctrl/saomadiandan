@@ -24,7 +24,7 @@
 										<view class="bill-empty__tips">可以去看看有那些想买的</view>
 									</view>
 									<view class="bill-empty__btn">
-										<navigator open-type="switchTab" url="/pages/menu/menu">随便逛逛</navigator>
+										<navigator open-type="reLaunch" url="/pages/menu/menu">随便逛逛</navigator>
 									</view>
 								</view>
 								<view v-else>
@@ -258,4 +258,3 @@ $balance-gradient-end: #ff9e01;
 	}
 }
 </style>
-

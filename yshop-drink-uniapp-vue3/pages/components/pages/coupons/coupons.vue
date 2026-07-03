@@ -240,7 +240,7 @@ const closeDetailModal = () => {
 	coupon.value = {}
 }
 const useCoupon = () => {
-	uni.switchTab({
+	uni.reLaunch({
 		url: '/pages/menu/menu'
 	})
 }

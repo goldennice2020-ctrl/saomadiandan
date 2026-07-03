@@ -149,7 +149,7 @@ const chooseAddress = async(address) => {
 		});
 
 		if (scene.value == 'menu') {
-			uni.switchTab({
+			uni.reLaunch({
 				url: '/pages/menu/menu'
 			})
 		} else if (scene.value == 'pay') {
