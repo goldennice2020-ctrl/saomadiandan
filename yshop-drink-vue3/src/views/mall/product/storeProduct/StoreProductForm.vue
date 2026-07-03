@@ -358,7 +358,8 @@ const formRules = reactive({
   slider_image: [{ required: true, message: '轮播图不能为空', trigger: 'blur' }],
   store_name: [{ required: true, message: '商品名称不能为空', trigger: 'blur' }],
   cate_id: [{ required: true, message: '分类id不能为空', trigger: 'blur' }],
-  price: [{ required: true, message: '商品价格不能为空', trigger: 'blur' }]
+  price: [{ required: true, message: '商品价格不能为空', trigger: 'blur' }],
+  stock: [{ required: true, message: '库存不能为空', trigger: 'blur' }]
 })
 const ruleList = ref([])
 const attrs = ref([])
@@ -499,21 +500,22 @@ const getList = async () => {
 const emit = defineEmits(['success']) // 定义 success 事件，用于操作成功后的回调
 const submitForm = async () => {
   // 校验表单
-  if (!formRef) return 
-  formRef.value.validate((valid, fields) => {
-  if (valid) {
-    console.log(fields)
-  } else {
+  if (!formRef.value) return
+  const valid = await formRef.value.validate().catch(() => false)
+  if (!valid) {
     return message.warning('请添加基本信息')
   }
-  })
-
 
   // 提交请求
   formLoading.value = true
   try {
      if(formValidate.value.spec_type ===0 ){
-        formValidate.value.attrs = oneFormValidate.value;
+        const singleSpec = normalizeSingleSpec(oneFormValidate.value[0] || {})
+        if (singleSpec.stock <= 0) {
+          message.warning('库存必须大于0')
+          return
+        }
+        formValidate.value.attrs = [singleSpec];
         formValidate.value.header = [];
         formValidate.value.items = [];
       }else{
@@ -522,6 +524,7 @@ const submitForm = async () => {
       }
       if(formValidate.value.spec_type === 1 && manyFormValidate.value.length===0){
         message.warning('请点击生成规格！');
+        return
       }
       await StoreProductApi.createStoreProduct(formValidate.value)
     dialogVisible.value = false
@@ -531,6 +534,31 @@ const submitForm = async () => {
     formLoading.value = false
   }
 }
+
+const toNumber = (value, defaultValue = 0) => {
+  if (value === undefined || value === null || value === '') return defaultValue
+  const numberValue = Number(value)
+  return Number.isNaN(numberValue) ? defaultValue : numberValue
+}
+
+const normalizeSingleSpec = (spec) => ({
+  ...spec,
+  pic: spec.pic || formValidate.value.image,
+  price: toNumber(spec.price, toNumber(formValidate.value.price)),
+  cost: toNumber(spec.cost, toNumber(formValidate.value.cost)),
+  ot_price: toNumber(spec.ot_price, toNumber(formValidate.value.ot_price)),
+  stock: toNumber(spec.stock, toNumber(formValidate.value.stock)),
+  bar_code: spec.bar_code || formValidate.value.bar_code || '',
+  weight: toNumber(spec.weight),
+  volume: toNumber(spec.volume),
+  brokerage: toNumber(spec.brokerage),
+  brokerage_two: toNumber(spec.brokerage_two),
+  integral: toNumber(spec.integral),
+  pink_price: toNumber(spec.pink_price),
+  pink_stock: toNumber(spec.pink_stock),
+  seckill_price: toNumber(spec.seckill_price),
+  seckill_stock: toNumber(spec.seckill_stock)
+})
 
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {

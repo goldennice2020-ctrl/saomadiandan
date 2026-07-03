@@ -636,32 +636,32 @@ public class StoreProductServiceImpl extends ServiceImpl<StoreProductMapper,Stor
         //取最小价格
         Double minPrice = attrs
                 .stream()
-                .map(ProductFormatDto::getPrice)
+                .map(attr -> defaultDouble(attr.getPrice()))
                 .min(Comparator.naturalOrder())
                 .orElse(0d);
 
         //取最小积分
         Integer minIntegral = attrs
                 .stream()
-                .map(ProductFormatDto::getIntegral)
+                .map(attr -> defaultInteger(attr.getIntegral()))
                 .min(Comparator.naturalOrder())
                 .orElse(0);
 
         Double minOtPrice = attrs
                 .stream()
-                .map(ProductFormatDto::getOtPrice)
+                .map(attr -> defaultDouble(attr.getOtPrice()))
                 .min(Comparator.naturalOrder())
                 .orElse(0d);
 
         Double minCost = attrs
                 .stream()
-                .map(ProductFormatDto::getCost)
+                .map(attr -> defaultDouble(attr.getCost()))
                 .min(Comparator.naturalOrder())
                 .orElse(0d);
         //计算库存
         Integer stock = attrs
                 .stream()
-                .map(ProductFormatDto::getStock)
+                .map(attr -> defaultInteger(attr.getStock()))
                 .reduce(Integer::sum)
                 .orElse(0);
 
@@ -676,6 +676,14 @@ public class StoreProductServiceImpl extends ServiceImpl<StoreProductMapper,Stor
                 .stock(stock)
                 .minIntegral(minIntegral)
                 .build();
+    }
+
+    private Double defaultDouble(Double value) {
+        return value == null ? 0d : value;
+    }
+
+    private Integer defaultInteger(Integer value) {
+        return value == null ? 0 : value;
     }
 
 

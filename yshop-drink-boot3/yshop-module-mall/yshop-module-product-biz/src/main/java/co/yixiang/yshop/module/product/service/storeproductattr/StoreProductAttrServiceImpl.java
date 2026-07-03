@@ -103,7 +103,8 @@ public class StoreProductAttrServiceImpl extends ServiceImpl<StoreProductAttrMap
 //            if(productFormatDto.getPinkStock()>productFormatDto.getStock() || productFormatDto.getSeckillStock()>productFormatDto.getStock()){
 //                throw new BadRequestException("活动商品库存不能大于原有商品库存");
 //            }
-            List<String> stringList = new ArrayList<>(productFormatDto.getDetail().values());
+            Map<String, String> detail = productFormatDto.getDetail() == null ? Collections.emptyMap() : productFormatDto.getDetail();
+            List<String> stringList = new ArrayList<>(detail.values());
             stringList =  StrUtils.compareTo(stringList);
             StoreProductAttrValueDO oldAttrValue = storeProductAttrValueService.getOne(new LambdaQueryWrapper<StoreProductAttrValueDO>()
                     .eq(StoreProductAttrValueDO::getSku, productFormatDto.getSku())
@@ -118,18 +119,18 @@ public class StoreProductAttrServiceImpl extends ServiceImpl<StoreProductAttrMap
                     .id(Objects.isNull(oldAttrValue) ? null : oldAttrValue.getId())
                     .productId(productId)
                     .sku(StrUtil.join(",",stringList))
-                    .price(BigDecimal.valueOf(productFormatDto.getPrice()))
-                    .cost(BigDecimal.valueOf(productFormatDto.getCost()))
-                    .otPrice(BigDecimal.valueOf(productFormatDto.getOtPrice()))
+                    .price(toBigDecimal(productFormatDto.getPrice()))
+                    .cost(toBigDecimal(productFormatDto.getCost()))
+                    .otPrice(toBigDecimal(productFormatDto.getOtPrice()))
                     .unique(unique)
-                    .image(productFormatDto.getPic())
-                    .barCode(productFormatDto.getBarCode())
-                    .weight(BigDecimal.valueOf(productFormatDto.getWeight()))
-                    .volume(BigDecimal.valueOf(productFormatDto.getVolume()))
-                    .brokerage(BigDecimal.valueOf(productFormatDto.getBrokerage()))
-                    .brokerageTwo(BigDecimal.valueOf(productFormatDto.getBrokerageTwo()))
-                    .stock(productFormatDto.getStock())
-                    .integral(productFormatDto.getIntegral())
+                    .image(defaultString(productFormatDto.getPic()))
+                    .barCode(defaultString(productFormatDto.getBarCode()))
+                    .weight(toBigDecimal(productFormatDto.getWeight()))
+                    .volume(toBigDecimal(productFormatDto.getVolume()))
+                    .brokerage(toBigDecimal(productFormatDto.getBrokerage()))
+                    .brokerageTwo(toBigDecimal(productFormatDto.getBrokerageTwo()))
+                    .stock(defaultInteger(productFormatDto.getStock()))
+                    .integral(defaultInteger(productFormatDto.getIntegral()))
                     .pinkPrice(BigDecimal.valueOf(productFormatDto.getPinkPrice()==null?0:productFormatDto.getPinkPrice()))
                     .seckillPrice(BigDecimal.valueOf(productFormatDto.getSeckillPrice()==null?0:productFormatDto.getSeckillPrice()))
                     .pinkStock(productFormatDto.getPinkStock()==null?0:productFormatDto.getPinkStock())
@@ -171,6 +172,18 @@ public class StoreProductAttrServiceImpl extends ServiceImpl<StoreProductAttrMap
         storeProductAttrValueMapper.delete(Wrappers.<StoreProductAttrValueDO>lambdaQuery()
                 .eq(StoreProductAttrValueDO::getProductId,productId));
 
+    }
+
+    private BigDecimal toBigDecimal(Double value) {
+        return BigDecimal.valueOf(value == null ? 0d : value);
+    }
+
+    private Integer defaultInteger(Integer value) {
+        return value == null ? 0 : value;
+    }
+
+    private String defaultString(String value) {
+        return value == null ? "" : value;
     }
 
 
