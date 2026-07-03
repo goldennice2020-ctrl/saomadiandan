@@ -150,7 +150,7 @@
 					<view class="wrapper">
 						<view class="basic">
 							<view class="name">{{ good.storeName }}</view>
-							<view class="tips flex justify-between">{{ good.storeInfo }} <text style="color: red;">可获积分:10</text></view>
+							<view class="tips">{{ good.storeInfo }}</view>
 						</view>
 						<view class="properties">
 							<view class="property" v-for="(item, index) in good.productAttr" :key="index">
@@ -171,14 +171,13 @@
 				<view class="action">
 					<view class="left">
 						<view class="price">￥{{ good.price }}</view>
-						<view class="props">
-							{{ good.valueStr }}
+							<view class="props">
+								{{ good.valueStr }}
+							</view>
 						</view>
-					</view>
-					<view class="btn-group">
-						<text style="margin-right: 20rpx;">库存：{{good.stock}} </text>
-						<button type="default" plain class="btn" size="mini" hover-class="none"
-							@tap="handlePropertyReduce">
+						<view class="btn-group">
+							<button type="default" plain class="btn" size="mini" hover-class="none"
+								@tap="handlePropertyReduce">
 							<view class="iconfont iconsami-select"></view>
 						</button>
 						<view class="number">{{ good.number }}</view>
