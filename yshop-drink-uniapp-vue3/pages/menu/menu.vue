@@ -1233,18 +1233,18 @@ page {
 										display: flex;
 										align-items: center;
 										justify-content: flex-end;
-										min-width: 108rpx;
+										min-width: 124rpx;
 
 										.btn {
 											box-sizing: border-box;
-											height: 46rpx;
-											padding: 0 21rpx;
-											font-size: 21rpx;
+											height: 53rpx;
+											padding: 0 24rpx;
+											font-size: 24rpx;
 											font-weight: 700;
-											line-height: 46rpx;
+											line-height: 53rpx;
 
 											&.property_btn {
-												border-radius: 25rpx;
+												border-radius: 29rpx;
 											}
 
 											&.add_btn,
@@ -1252,11 +1252,11 @@ page {
 												display: flex;
 												align-items: center;
 												justify-content: center;
-												width: 45rpx;
-												height: 45rpx;
+												width: 52rpx;
+												height: 52rpx;
 												padding: 0;
-												border-radius: 45rpx;
-												line-height: 45rpx;
+												border-radius: 52rpx;
+												line-height: 52rpx;
 											}
 
 											&.add_btn {
@@ -1274,17 +1274,17 @@ page {
 												display: block;
 												width: 100%;
 												height: 100%;
-												font-size: 36rpx;
+												font-size: 42rpx;
 												font-weight: 500;
-												line-height: 40rpx;
+												line-height: 46rpx;
 												text-align: center;
 											}
 										}
 
 										.quantity {
-											width: 49rpx;
-											font-size: 28rpx;
-											line-height: 45rpx;
+											width: 56rpx;
+											font-size: 32rpx;
+											line-height: 52rpx;
 											text-align: center;
 											color: $text-color-base;
 										}
@@ -1508,13 +1508,13 @@ page {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 150rpx;
-		height: 55rpx;
+		width: 172rpx;
+		height: 63rpx;
 		padding: 0;
-		font-size: 22rpx;
+		font-size: 25rpx;
 		font-weight: 600;
 		color: $text-color-white;
-		border-radius: 31rpx;
+		border-radius: 36rpx;
 	}
 
 	.mark {
