@@ -55,7 +55,7 @@ public class FileServiceImpl implements FileService {
         // 上传到文件存储器
         FileClient client = fileConfigService.getMasterFileClient();
         Assert.notNull(client, "客户端(master) 不能为空");
-        String url = client.upload(content, path, type);
+        String url = StrUtil.trim(client.upload(content, path, type));
 
         // 保存到数据库
         FileDO file = new FileDO();
@@ -72,6 +72,8 @@ public class FileServiceImpl implements FileService {
     @Override
     public Long createFile(FileCreateReqVO createReqVO) {
         FileDO file = BeanUtils.toBean(createReqVO, FileDO.class);
+        file.setUrl(StrUtil.trim(file.getUrl()));
+        file.setPath(StrUtil.trim(file.getPath()));
         fileMapper.insert(file);
         return file.getId();
     }

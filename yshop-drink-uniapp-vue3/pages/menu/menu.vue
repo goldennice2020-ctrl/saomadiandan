@@ -347,6 +347,25 @@ const showFallbackMenu = (message = '') => {
 	nextTick(() => measureMenuLayout())
 }
 
+const trimUrl = (url) => typeof url === 'string' ? url.trim() : url
+const normalizeGoodsImages = (list = []) => {
+	return list.map((cate) => ({
+		...cate,
+		icon: trimUrl(cate.icon),
+		goodsList: (cate.goodsList || []).map((item) => ({
+			...item,
+			image: trimUrl(item.image),
+			productValue: Object.keys(item.productValue || {}).reduce((acc, key) => {
+				acc[key] = {
+					...item.productValue[key],
+					image: trimUrl(item.productValue[key]?.image)
+				}
+				return acc
+			}, {})
+		}))
+	}))
+}
+
 const measureMenuLayout = () => {}
 
 const goodCartNum = computed(() => { //计算单个饮品添加到购物车的数量
@@ -549,7 +568,7 @@ const getShopList = async(shopId) => {
 				shopId: shop.id
 			}));
 			if (mygoods && mygoods.length) {
-				goods.value = mygoods;
+				goods.value = normalizeGoodsImages(mygoods);
 				refreshCart();
 			} else {
 				goods.value = fallbackGoods;

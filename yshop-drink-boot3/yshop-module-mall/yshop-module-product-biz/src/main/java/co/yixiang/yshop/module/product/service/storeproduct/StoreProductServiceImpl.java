@@ -461,6 +461,7 @@ public class StoreProductServiceImpl extends ServiceImpl<StoreProductMapper,Stor
         //添加商品
         StoreProductDO yxStoreProduct = new StoreProductDO();
         BeanUtil.copyProperties(storeProductDto, yxStoreProduct, "sliderImage");
+        yxStoreProduct.setImage(StrUtil.trim(yxStoreProduct.getImage()));
         if (storeProductDto.getSliderImage().isEmpty()) {
             throw exception(STORE_PRODUCT_SLIDER_ERROR);
         }
@@ -471,7 +472,7 @@ public class StoreProductServiceImpl extends ServiceImpl<StoreProductMapper,Stor
         yxStoreProduct.setCost(BigDecimal.valueOf(resultDTO.getMinCost()));
         yxStoreProduct.setIntegral(resultDTO.getMinIntegral());
         yxStoreProduct.setStock(resultDTO.getStock());
-        yxStoreProduct.setSliderImage(String.join(",", storeProductDto.getSliderImage()));
+        yxStoreProduct.setSliderImage(String.join(",", trimList(storeProductDto.getSliderImage())));
 
 
         this.saveOrUpdate(yxStoreProduct);
@@ -684,6 +685,10 @@ public class StoreProductServiceImpl extends ServiceImpl<StoreProductMapper,Stor
 
     private Integer defaultInteger(Integer value) {
         return value == null ? 0 : value;
+    }
+
+    private List<String> trimList(List<String> values) {
+        return values.stream().map(StrUtil::trim).collect(Collectors.toList());
     }
 
 

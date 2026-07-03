@@ -123,7 +123,7 @@ public class StoreProductAttrServiceImpl extends ServiceImpl<StoreProductAttrMap
                     .cost(toBigDecimal(productFormatDto.getCost()))
                     .otPrice(toBigDecimal(productFormatDto.getOtPrice()))
                     .unique(unique)
-                    .image(defaultString(productFormatDto.getPic()))
+                    .image(StrUtil.trim(defaultString(productFormatDto.getPic())))
                     .barCode(defaultString(productFormatDto.getBarCode()))
                     .weight(toBigDecimal(productFormatDto.getWeight()))
                     .volume(toBigDecimal(productFormatDto.getVolume()))
